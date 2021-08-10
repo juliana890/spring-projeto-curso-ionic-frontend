@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 //Classe controlador da nossa view home.html
 //Toda view precisa de um controlador
@@ -10,8 +11,18 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public menu: MenuController) {
 
+  }
+
+  //Quando entrar na página login ele desabilita o menu lateral com a função swipeEnable(false)
+  ionViewWillEnter() {
+    this.menu.swipeEnable(false);
+  }
+
+  //Quando sair da tela de login ele habilita o menu lateral novamente com a função swipeEnable(true)
+  ionViewDidLeave() {
+    this.menu.swipeEnable(true);
   }
 
   login(){
