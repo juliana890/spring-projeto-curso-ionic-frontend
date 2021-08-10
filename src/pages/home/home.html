@@ -12,7 +12,9 @@
       <ion-label stacked>Senha</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <button ion-button block>Entrar</button>
+    <!-- Binding de evento click: no Angular passamos o evento entre parênteses -->
+    <!-- Chamamos o método login() que foi definido no controlador dessa página home.ts -->
+    <button ion-button block (click)="login()">Entrar</button>
   </form>
 
   <button ion-button block outline>Registrar</button>
