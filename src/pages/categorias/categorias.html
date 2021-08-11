@@ -9,6 +9,20 @@
 
 <ion-content padding>
 
-    <p>Página de Categorias</p>
+    <!-- Lista de categorias -->
+    <ion-list>
+      <!-- Botão para item ser clicado -->
+      <!-- *ngFor: Diretiva capaz de ler uma coleção repetindo de acordo com a quantidade de items -->
+      <!-- let item of items: Percorre a lista de items que foi definido em categorias.ts para cada elemento da lista chamamos de item -->
+      <button ion-item *ngFor="let item of items">
+        <ion-thumbnail item-start>
+          <!-- Pegamos a url do S3 onde estão armazenadas nossas imagens de categorias e passamos o id do item -->
+          <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+        </ion-thumbnail>
+        <!-- Incluímos o texto dinâmico extraido do item -->
+        <!-- Interpolação: Pegamos o nome da categoria -->
+        <h2>{{ item.nome }}</h2>
+      </button>
+    </ion-list>
 
 </ion-content>
