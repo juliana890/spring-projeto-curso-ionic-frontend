@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 //Classe controlador da nossa view home.html
 //Toda view precisa de um controlador
@@ -10,6 +11,12 @@ import { MenuController } from 'ionic-angular/components/app/menu-controller';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  //Iniciamos o objeto para efetuarmos o login, a principio vazio para efetuar o binding com os valores dos campos
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
 
   constructor(public navCtrl: NavController, public menu: MenuController) {
 
@@ -33,6 +40,8 @@ export class HomePage {
     //setRoot não mostra a seta para voltar fazemos assim pq após a tela de login não é necessário
     this.navCtrl.setRoot('CategoriasPage');
     //this.navCtrl.push('CategoriasPage');
+
+    console.log(this.creds);
   
 
   }

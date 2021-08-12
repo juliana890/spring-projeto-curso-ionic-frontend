@@ -6,11 +6,14 @@
   <form>
     <ion-item>
       <ion-label stacked>Email</ion-label>
-      <ion-input type="text"></ion-input>
+      <!-- Fazemos um duplo binding: [] = Atributos, () = Evento -->
+      <!-- ngModel diretiva padrão do Angular que faz o binding com algum dado do controlador -->
+      <!-- Passamos nossa variável creds.email para atribuir o email digitado -->
+      <ion-input [(ngModel)]="creds.email" name="email" type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input [(ngModel)]="creds.senha" name="senha" type="password"></ion-input>
     </ion-item>
     <!-- Binding de evento click: no Angular passamos o evento entre parênteses -->
     <!-- Chamamos o método login() que foi definido no controlador dessa página home.ts -->
