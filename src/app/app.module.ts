@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { CategoriaService } from '../services/domain/categoria.service';
 import { ErrorInterceptor, ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 
 //Adicionamos a importação HttpClientModule para efetuar requisições
 //Inserimos na classe principal da aplicação pq fica disponível para todas as classes
@@ -35,7 +36,8 @@ import { AuthService } from '../services/auth.service';
     //Chamamos nossas classes no provider
     CategoriaService,
     ErrorInterceptorProvider,
-    AuthService
+    AuthService,
+    StorageService
   ]
 })
 export class AppModule {}

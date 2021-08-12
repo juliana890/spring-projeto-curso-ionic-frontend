@@ -41,7 +41,7 @@ export class HomePage {
     this.auth.authenticate(this.creds)
       .subscribe(response => { //Se tiver sucesso na requisição
         //Acessando o token
-        console.log(response.headers.get("Authorization"));
+        this.auth.successfulLogin(response.headers.get("Authorization"));
 
         //Para navegarmos para a página Categorias utilizamos a injeção de dependência NavController
         //No TypeScript utilizamos o this para acessar o objeto navCtrl
