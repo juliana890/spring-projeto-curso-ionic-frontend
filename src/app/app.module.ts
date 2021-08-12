@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CategoriaService } from '../services/domain/categoria.service';
+import { ErrorInterceptor, ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 
 //Adicionamos a importação HttpClientModule para efetuar requisições
 //Inserimos na classe principal da aplicação pq fica disponível para todas as classes
@@ -30,7 +31,8 @@ import { CategoriaService } from '../services/domain/categoria.service';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CategoriaService 
+    CategoriaService,
+    ErrorInterceptorProvider //Chamamos nossa classe o ErrorInterceptor no provider
   ]
 })
 export class AppModule {}
