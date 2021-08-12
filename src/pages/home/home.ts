@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/auth.service';
 
 //Classe controlador da nossa view home.html
 //Toda view precisa de um controlador
@@ -17,8 +18,12 @@ export class HomePage {
     email: "",
     senha: ""
   };
-
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  
+  //Chamamos o AuthService para a autenticação de login
+  constructor(
+    public navCtrl: NavController, 
+    public menu: MenuController,
+    public auth: AuthService) {
 
   }
 
@@ -33,17 +38,20 @@ export class HomePage {
   }
 
   login(){
-    //Para navegarmos para a página Categorias utilizamos a injeção de dependência NavController
-    //No TypeScript utilizamos o this para acessar o objeto navCtrl
-    //o push empilha a página em cima da outra em dispositivos móveis funciona dessa forma
-    //Passamos o nome da classe controller como string como já foi definido no Lazy loading
-    //setRoot não mostra a seta para voltar fazemos assim pq após a tela de login não é necessário
-    this.navCtrl.setRoot('CategoriasPage');
-    //this.navCtrl.push('CategoriasPage');
+    this.auth.authenticate(this.creds)
+      .subscribe(response => { //Se tiver sucesso na requisição
+        //Acessando o token
+        console.log(response.headers.get("Authorization"));
 
-    console.log(this.creds);
-  
-
+        //Para navegarmos para a página Categorias utilizamos a injeção de dependência NavController
+        //No TypeScript utilizamos o this para acessar o objeto navCtrl
+        //o push empilha a página em cima da outra em dispositivos móveis funciona dessa forma
+        //Passamos o nome da classe controller como string como já foi definido no Lazy loading
+        //setRoot não mostra a seta para voltar fazemos assim pq após a tela de login não é necessário
+        //this.navCtrl.push('CategoriasPage');
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});
   }
 
 }
