@@ -8,7 +8,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     //Nesse método implementamos a lógica do retorno da requisição
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("Passou no interceptor");
         return next.handle(req) //Continua a requisição
             .catch((error, caught) => {
                 //Pegamos apenas o error retornado na requisição

@@ -13,18 +13,9 @@ export class ClienteService {
 
     //Método que irá receber um email e retornará um Observable de ClienteDTO
     findByEmail(email: string) : Observable<ClienteDTO> {
-        //Código Temporário
-        //Obtemos o token que está armazenado no localStorage
-        let token = this.storage.getLocalUser().token;
-
-        //Passamos nosso token para o header para autorizar na requisição
-        let authHeader = new HttpHeaders({'Authorization': 'Bearer ' + token});
-
         //Fazemos a busca conforme url da nossa aplicação no Spring ClienteResource passando o value = email
         //E passamos nossa variável authHeader
-        return this.http.get<ClienteDTO>(
-            `${API_CONFIG.baseUrl}/clientes/email?value=${email}`, 
-            {'headers': authHeader});
+        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
     //Método que irá buscar a imagem no bucket da amazon S3

@@ -12,6 +12,7 @@ import { ErrorInterceptor, ErrorInterceptorProvider } from '../interceptors/erro
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ClienteService } from '../services/domain/cliente.service';
+import { AuthInterceptorProvider } from '../interceptors/auth-interceptor';
 
 //Adicionamos a importação HttpClientModule para efetuar requisições
 //Inserimos na classe principal da aplicação pq fica disponível para todas as classes
@@ -36,6 +37,7 @@ import { ClienteService } from '../services/domain/cliente.service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     //Chamamos nossas classes no provider
     CategoriaService,
+    AuthInterceptorProvider, //Chamamos antes pq é necessário colocar o cabeçalho primeiro e depois lançar a exceção caso haja alguma
     ErrorInterceptorProvider,
     AuthService,
     StorageService,
