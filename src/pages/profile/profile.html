@@ -9,5 +9,13 @@
 
 <ion-content padding>
     <!-- Mostramos o email: Variável atribuída na classe -->
-    {{ email }}
+    <ion-avatar>
+      <!-- O atríbuto src está entre '[]' pq estamos fazendo um binding da imagem -->
+      <!-- Pegamos o objeto cliente que está no controlador -->
+      <!-- Se não existir o objeto 'cliente?.imageUrl' ele joga a imagem padrão em imgs -->
+      <!-- '?': Operador de segurança do Angular caso o objeto esteja null ele não gera erros -->
+      <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+    </ion-avatar>
+    <h2 text-center>{{cliente?.nome}}</h2>
+    <p text-center>{{cliente?.email}}</p>
 </ion-content>
