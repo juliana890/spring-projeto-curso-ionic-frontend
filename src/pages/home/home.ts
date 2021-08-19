@@ -71,4 +71,9 @@ export class HomePage {
       error => {});
   }
 
+  signup(){
+    //Navegação até a página Signup, empilhamos a página com push para termos a opção de voltar
+    this.navCtrl.push('SignupPage');
+  }
+
 }
