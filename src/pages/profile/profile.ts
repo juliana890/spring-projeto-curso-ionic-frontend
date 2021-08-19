@@ -38,7 +38,14 @@ export class ProfilePage {
           this.getImageIfExists();
 
         },
-        error => {});
+        error => {
+          if(error.status == 403){
+            this.navCtrl.setRoot('HomePage');
+          }
+        });
+        
+    }else{ //Caso haja algum problema ao obter o localUser redirecionamos o usuário para a página Home
+      this.navCtrl.setRoot('HomePage');
     }
 
   }
