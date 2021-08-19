@@ -3,11 +3,12 @@ import { Injectable } from "@angular/core";
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable } from "rxjs/Rx"; //Import Atualizado
 import { StorageService } from "../services/storage.service";
+import { AlertController } from "ionic-angular";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public storage: StorageService){}
+    constructor(public storage: StorageService, public alertCtrl: AlertController){}
 
     //Nesse método implementamos a lógica do retorno da requisição
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -29,9 +30,14 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                 //Tratando o erro 403
                 switch(errorObj.status){
+                    case 401:
+                        this.handle401();
+                        break;
                     case 403:
                         this.handle403();
                         break;
+                    default:
+                        this.handleDefaultError(errorObj);
                 }
 
                 return Observable.throw(errorObj); //Retornamos somente o errorObj formatado
@@ -41,6 +47,42 @@ export class ErrorInterceptor implements HttpInterceptor {
     //Tratamos o erro 403 dessa forma pois é possível que algum usuário armazenado no localStorage esteja inválido
     handle403(){
         this.storage.setLocalUser(null);
+    }
+
+    //Tratamos o erro 401 erro de autenticação
+    handle401(){
+        //Criamos um alert
+        let alert = this.alertCtrl.create({
+            title: 'Erro 401: Falha de autenticação',
+            message: 'Email ou senha incorretos',
+            enableBackdropDismiss: false, //Para sair do alert clicando no botão
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+
+        //Para apresentar o alert na tela
+        alert.present();
+    }
+
+    //Tratamos os erros default
+    handleDefaultError(errorObj){
+        //Criamos um alert
+        let alert = this.alertCtrl.create({
+            title: 'Erro ' + errorObj.status + ': ' + errorObj.error,
+            message: errorObj.message,
+            enableBackdropDismiss: false, //Para sair do alert clicando no botão
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+
+        //Para apresentar o alert na tela
+        alert.present();
     }
 
 }
