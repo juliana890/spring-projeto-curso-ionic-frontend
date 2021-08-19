@@ -37,6 +37,23 @@ export class HomePage {
     this.menu.swipeEnable(true);
   }
 
+  ionViewDidEnter(){
+    this.auth.refreshToken() //Chamamos o refreshToken para aproveitarmos o usuário logado
+      .subscribe(response => { //Se tiver sucesso na requisição
+        //Acessando o token
+        this.auth.successfulLogin(response.headers.get("Authorization"));
+
+        //Para navegarmos para a página Categorias utilizamos a injeção de dependência NavController
+        //No TypeScript utilizamos o this para acessar o objeto navCtrl
+        //o push empilha a página em cima da outra em dispositivos móveis funciona dessa forma
+        //Passamos o nome da classe controller como string como já foi definido no Lazy loading
+        //setRoot não mostra a seta para voltar fazemos assim pq após a tela de login não é necessário
+        //this.navCtrl.push('CategoriasPage');
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});
+  }
+
   login(){
     this.auth.authenticate(this.creds)
       .subscribe(response => { //Se tiver sucesso na requisição

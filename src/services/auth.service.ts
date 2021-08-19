@@ -30,6 +30,19 @@ export class AuthService {
             });
     }
 
+    //Método do refresh token para aproveitar o usuário logado se token ainda for válido
+    //O token é incluído automaticamente na requisição pelo interceptor
+    refreshToken(){
+        //${API_CONFIG.baseUrl} Chamamos a url da aplicação préviamente configurada no api.config
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {
+                observe: "response", //Especificação para termos acesso ao header utilizando o response
+                responseType: "text" //Especificação para o body vazio e o framework não dar um parse no JSON e consequentemente gerar algum tipo de erro
+            });
+    }
+
     successfulLogin(authorizationValue : string){
         let tok = authorizationValue.substring(7); //Retiramos o 'Bearer ' do token
         let user : LocalUser = {
