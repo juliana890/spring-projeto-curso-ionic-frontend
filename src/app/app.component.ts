@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,29 +14,43 @@ export class MyApp {
 
   pages: Array<{title: string, component: string}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-    this.initializeApp();
+  constructor(
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen,
+    public auth: AuthService) {
+      this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Profile', component: 'ProfilePage' },
-      { title: 'Categorias', component: 'CategoriasPage' }
-    ];
+      // used for an example of ngFor and navigation
+      this.pages = [
+        { title: 'Profile', component: 'ProfilePage' },
+        { title: 'Categorias', component: 'CategoriasPage' },
+        {title: 'Logout', component: ''} //Sem component pois ele terá um tratamento especial
+      ];
 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  openPage(page: {title: string, component: string}) { //Dessa forma conseguimos acessar os atríbutos do objeto page
+    //Fazemos o switch para verificar se é o Logout
+    switch(page.title){
+      case 'Logout':
+        //Chamamos o método logout() criado na classe AuthService para remover o token do usuário do armazenamento
+        this.auth.logout();
+        //Redirecionamos para a página Home
+        this.nav.setRoot('HomePage');
+        break;
+      default:
+        //Abrimos a página normalmente
+        this.nav.setRoot(page.component);
+    }
+    
+    
   }
 }
