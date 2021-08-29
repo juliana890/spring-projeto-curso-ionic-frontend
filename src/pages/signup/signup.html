@@ -7,17 +7,23 @@
 
 <ion-content padding>
   <!-- $event.preventDefault(): Prevenção do envio da página -->
-  <!-- Fazemos o binding na tag form passando nosso formGroup criado no signup.ts -->>
+  <!-- Fazemos o binding na tag form passando nosso formGroup criado no signup.ts -->
   <form [formGroup]="formGroup" (ngSubmit)="signupUser(); $event.preventDefault()">
     <ion-item>
       <ion-label stacked>Nome*</ion-label>
       <!-- formControlName: binding modificado pelo formGroup definido em signup.ts -->
       <ion-input formControlName="nome" type="text"></ion-input>
     </ion-item>
+    <!-- Tag para marcar os erros de validação no nosso form -->
+    <!-- Utilizamos a diretiva do Angula *ngIf: Se algum dos casos for verdade ele mostra a msg na tela -->
+    <!-- Chamamos o formGroup pegamos o campo nome, .dirty testa se o campo já foi mexido -->
+    <!-- O errors só vai dar verdadeiro se algum dos Validators do nome definido em signup.ts estourar -->
+    <p class="danger" *ngIf="formGroup.controls.nome.dirty && formGroup.controls.nome.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Email*</ion-label>
       <ion-input formControlName="email" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.email.dirty && formGroup.controls.email.errors" margin-left>Valor inválido</p>
     <ion-list radio-group formControlName="tipo">
       <ion-list-header>
         Tipo de cliente
@@ -36,18 +42,22 @@
       <ion-label stacked>CPF ou CNPJ</ion-label>
       <ion-input formControlName="cpfOuCnpj" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cpfOuCnpj.dirty && formGroup.controls.cpfOuCnpj.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Senha*</ion-label>
       <ion-input formControlName="senha" type="password"></ion-input>
     </ion-item> 
+    <p class="danger" *ngIf="formGroup.controls.senha.dirty && formGroup.controls.senha.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Logradouro*</ion-label>
       <ion-input formControlName="logradouro" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.logradouro.dirty && formGroup.controls.logradouro.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Número*</ion-label>
       <ion-input formControlName="numero" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.numero.dirty && formGroup.controls.numero.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Complemento</ion-label>
       <ion-input formControlName="complemento" type="text"></ion-input>
@@ -60,10 +70,12 @@
       <ion-label stacked>CEP*</ion-label>
       <ion-input formControlName="cep" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cep.dirty && formGroup.controls.cep.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Telefone 1*</ion-label>
       <ion-input formControlName="telefone1" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.telefone1.dirty && formGroup.controls.telefone1.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Telefone 2</ion-label>
       <ion-input formControlName="telefone2" type="text"></ion-input>
@@ -88,7 +100,8 @@
         <ion-option *ngFor="let cidade of cidades" [value]="cidade.id">{{cidade.nome}}</ion-option>
       </ion-select>
     </ion-item>
-    <button ion-button block type="submit">Criar conta</button>
+    <!-- [disabled]="formGroup.invalid": Desabilitamos o formulário caso ainda esteja inválido para enviar -->
+    <button ion-button block type="submit" [disabled]="formGroup.invalid" >Criar conta</button>
   </form>
 
 </ion-content>
