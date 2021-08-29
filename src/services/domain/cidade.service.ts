@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx"; //Importação correta para o Observable pois a outra é incompleta
 import { API_CONFIG } from "../../config/api.config";
 import { CidadeDTO } from "../../models/cidade.dto";
+import { ClienteDTO } from "../../models/cliente.dto";
 
 //Para que a classe possa ser injetada em outras classes
 @Injectable()
@@ -17,4 +18,5 @@ export class CidadeService{
         //Chamamos nossa API config e tipamos o get com CidadeDTO[]
         return this.http.get<CidadeDTO[]>(`${API_CONFIG.baseUrl}/estados/${estado_id}/cidades`);
     }
+
 }

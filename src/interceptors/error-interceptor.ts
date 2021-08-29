@@ -4,6 +4,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 import { Observable } from "rxjs/Rx"; //Import Atualizado
 import { StorageService } from "../services/storage.service";
 import { AlertController } from "ionic-angular";
+import { FieldMessage } from "../models/fieldmessage";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -36,6 +37,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                     case 403:
                         this.handle403();
                         break;
+                    case 422:
+                        this.handle422(errorObj);
+                        break;
                     default:
                         this.handleDefaultError(errorObj);
                 }
@@ -67,6 +71,22 @@ export class ErrorInterceptor implements HttpInterceptor {
         alert.present();
     }
 
+    //Tratamos o erro 422 erros de validação de campos
+    handle422(errorObj){
+        //Listamos todos os erros para que o usário possa corrigi-los
+        let alert = this.alertCtrl.create({
+            title: 'Erro 422: Validação',
+            message: this.listErrors(errorObj.errors), //Pegamos os erros do back-end definido na nossa classe ValidatorError lista errors
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        alert.present();
+    }
+
     //Tratamos os erros default
     handleDefaultError(errorObj){
         //Criamos um alert
@@ -85,6 +105,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         alert.present();
     }
 
+    private listErrors(messages : FieldMessage[]) : string {
+        let s : string = '';
+        for(var i = 0; i < messages.length; i++){
+            s = s + '<p><strong>' + messages[i].fieldName + "</strong>: " + messages[i].message + '</p>';
+        }
+
+        return s;
+    }
 }
 
 //Exigência do framework para criar um interceptor

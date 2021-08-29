@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CidadeDTO } from '../../models/cidade.dto';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeService } from '../../services/domain/cidade.service';
+import { ClienteService } from '../../services/domain/cliente.service';
 import { EstadoService } from '../../services/domain/estado.service';
 
 @IonicPage()
@@ -22,7 +23,9 @@ export class SignupPage {
     public navParams: NavParams,
     public formBuilber: FormBuilder,
     public cidadeService: CidadeService, //Injetamos os serviços para efetuarem a busca no front
-    public estadoService: EstadoService) {
+    public estadoService: EstadoService,
+    public clienteServive: ClienteService,
+    public alertCtrl: AlertController) {
       
       this.formGroup = this.formBuilber.group({
         //Atributo nome é de preenchimento obrigatório vide regra no back-end, mínimo 5 e máximo 120 caracteres
@@ -73,7 +76,30 @@ export class SignupPage {
   }
 
   signupUser(){
-    console.log("TESTE - Enviou o form");
+    this.clienteServive.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      },
+      error => {});
+  }
+
+  showInsertOk(){
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          //Função anônima que não recebe nada mas executa algo que será definido
+          handler: () => {
+            //Desempilhamos a página
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
