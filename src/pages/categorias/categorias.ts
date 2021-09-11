@@ -37,7 +37,11 @@ export class CategoriasPage {
       });
   }
 
-  showProdutos(){
-    this.navCtrl.push('ProdutosPage');
+  showProdutos(categoria_id: string){
+    //Passando parâmetros de uma página pra outra
+    //Inclui outro paramêtro na forma de objeto
+    //1° categoria_id: nome do atributo
+    //2° categoria_id o que está chegando no paramêtro
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id});
   }
 }
